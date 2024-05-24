@@ -6,6 +6,10 @@ import Cerrar from '../img/Cerrar.png';
 import Eliminar from '../img/Eliminar.png';
 import Adicionar from '../img/Adicionar.png';
 import Fondo from '../img/baseAzul.png';
+import LupaBuscar from '../img/LupaBuscar.png';
+import Editar from '../img/Editar.png';
+
+
 
 const DentroInicio = () => {
   const navigate = useNavigate();
@@ -95,7 +99,12 @@ const DentroInicio = () => {
   const navegarRegistrar = () => {
     navigate('/registrar');
   };
-
+  const navegarBuscar = (codigoMascota) => {
+    navigate(`/buscar/${codigoMascota}`);
+  };
+  const navegarEditar = (codigoMascota) => {
+    navigate(`/editar/${codigoMascota}`);
+  };
   return (
     <div
       className='flex flex-col items-center justify-center min-h-screen'
@@ -143,6 +152,18 @@ const DentroInicio = () => {
                   <h2 className="text-center font-bold mb-2">{mascota.nombre_mascota}</h2>
                   <p className="text-center">Raza: {mascota.raza}</p>
                 </div>
+                <img
+                 src={LupaBuscar}
+                 className="cursor-pointer w-6 h-6 ml-auto"
+                 alt="Eliminar"
+                 onClick={() => navegarBuscar(mascota.codigo)}
+               />
+                <img
+                 src={Editar}
+                 className="cursor-pointer w-6 h-6 ml-auto"
+                 alt="Eliminar"
+                 onClick={() => navegarEditar(mascota.codigo)}
+               />
                 <img
                   src={Eliminar}
                   className="cursor-pointer w-6 h-6 ml-auto"
