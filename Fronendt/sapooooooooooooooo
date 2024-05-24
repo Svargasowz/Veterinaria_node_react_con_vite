@@ -1,0 +1,90 @@
+<div className="w-full max-w-md p-4">
+{/* Parte superior */}
+<div className="relative w-full flex justify-between items-center mb-4">
+  <img
+    src={Volver}
+    className="cursor-pointer"
+    alt="volver"
+    onClick={volver}
+    style={{ position: 'absolute', left: '0px' }}
+  />
+  <h1 className="text-white font-arial text-2xl mx-auto">
+    Adicionar mascotas
+  </h1>
+  <img
+    src={Cerrar}
+    className="cursor-pointer"
+    alt="cerrar"
+    onClick={cerrarSesion}
+    style={{ position: 'absolute', right: '0px' }}
+  />
+</div>
+
+
+{/* Formulario */}
+
+
+<form onSubmit={handleSubmit}>
+  <div className="rounded-lg p-6 ">
+    <div className="flex justify-center mb-4">
+      <label htmlFor="subirFoto">
+        <img
+          src={selectedImage || CamaraMostrar}
+          alt="subir foto"
+          className="w-26 h-26 rounded-full p-4 cursor-pointer"
+        />
+      </label>
+      <input
+        type="file"
+        id="subirFoto"
+        className="hidden"
+        onChange={ImagenMostrar}
+      />
+    </div>
+    <input
+      type="text"
+      placeholder="Nombre"
+      className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+    />
+    <select
+      className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+    >
+      <option value="" disabled selected>Seleccione Raza...</option>
+      {/* Agrega las opciones aquí */}
+    </select>
+    <select
+      className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+    >
+      <option value="" disabled selected>Seleccione Categoría...</option>
+      {/* Agrega las opciones aquí */}
+    </select>
+    <div className="flex items-center mb-4">
+      <input
+        type="file"
+        className="hidden"
+        id="subirFoto"
+        onChange={ImagenMostrar}
+      />
+      <label
+        htmlFor="subirFoto"
+        className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+      >
+        <img src={CamaraMostrar} alt="subir foto" className="w-6 h-6 mr-2" />
+        Subir Foto
+      </label>
+    </div>
+    <select
+      className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+    >
+      <option value="" disabled selected>Seleccione Género...</option>
+      {/* Agrega las opciones aquí */}
+    </select>
+    <button
+      type="submit"
+      className="p-3 w-full rounded-lg bg-green-500 text-white"
+    >
+      Guardar
+    </button>
+  </div>
+</form>
+</div>

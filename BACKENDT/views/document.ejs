@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentacion de la API</title>
+</head>
+<body>
+    <hr>
+    <h2> Modulo Usuarios </h2>
+    <hr>
+    <h3> Requerimiento registrar Usuarios </h3>
+
+    <table>
+        <tr><td>Numero</td><td>1</td></tr>
+        <tr><td>Nombre del servicio</td><td>registrar usuarios</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/validar/registrar</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador registrar un nuevo usuario</td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td>NULL</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            {<br>
+                {<br>
+                    "identificacion":1029880306, <br>
+                    "nombre":"Sergio Andres Vargas", <br>
+                    "email":"sergio@gmail.com", <br>
+                    "password":"123456789" <br>
+                }
+            } 
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            { <br>
+                "message": "Usuario registrado con éxito" <br>
+            }
+          <br>
+          Incorrecto: <br>
+          Status:404 <br>
+           JSON:{ <br>
+            message: 'Usuario no registrado' <br>
+           }
+           <br>
+           Error: <br>
+           Status:500 <br>
+           JSON:{ <br>
+            message: 'Error del servidor ' + error <br>
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+
+
+    <h3> Requerimiento iniciar sesion </h3>
+
+    <table>
+        <tr><td>Numero</td><td>2</td></tr>
+        <tr><td>Nombre del servicio</td><td>registrar usuarios</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/validar/login</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador loguearse</td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td>null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            { <br>
+                "email":"sergio@gmail.com", <br>
+                "password":"123456789" <br>
+            }
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            { <br>
+                "user": { <br>
+                    "identificacion": 1029880306, <br>
+                    "nombre": "Sergio Andres Vargas", <br>
+                    "email": "sergio@gmail.com", <br>
+                    "password": "$2a$10$Bv54tnweyXd4FrYUWeYIOO57tghfe8VHzh0I/nRuw31yrr5ovNzUG" <br>
+                }, <br>
+                "token": <br>
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. <br>
+                eyJ1c2VyIjp7ImlkZW50aWZpY2FjaW9uIjoxMDI5ODgwMzA <br>
+                2LCJub21icmUiOiJTZXJnaW8gQW5kcmVzIFZhcmdhcyIsIm <br>
+                VtYWlsIjoic2VyZ2lvQGdtYWlsLmNvbSIsInBhc3N3b3JkI <br>
+                joiJDJhJDEwJEJ2NTR0bndleVhkNEZyWVVXZVlJT081N3Rn <br>
+                aGZlOFZIemgwSS9uUnV3MzF5cnI1b3ZOelVHIn0sImlhdCI <br>
+                6MTcxNTYyODM0MiwiZXhwIjoxNzE1NzE0NzQyfQ.GtSCBLu <br>
+                M9huoR7UCKOI0tm41HAxzuWMj455hA_Gwhac" <br>
+            }
+          <br>
+          Incorrecto: <br>
+          Status:404 <br>
+           JSON:{ <br>
+            message: 'Usuario o contraseña incorrectos <br>
+           }
+           <br>
+           Error: <br>
+           Status:500 <br>
+           JSON:{ <br>
+            status: 500, message: 'Error del servidor ' + error  <br>
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+
+
+
+
+
+    <hr>
+    <h2> Modulo Mascotas </h2>
+    <hr>
+    <h3> Requerimiento registrar una Mascota </h3>
+
+    <table>
+        <tr><td>Numero</td><td>3</td></tr>
+        <tr><td>Nombre del servicio</td><td>registrar usuarios</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/mascotas/registrar</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador registrar una nueva mascota</td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td>token</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion Form-Data</td><td>
+                    "raza_codigo":1, <br>
+                    "categoria_codigo":1, <br>
+                    "foto":(foto), <br>
+                    "genero_codigo":1 <br>
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            { <br>
+                message: 'Mascota registrada con éxito' <br>
+            }
+          <br>
+          Incorrecto: <br>
+          Status:404 <br>
+           JSON:{ <br>
+            message: 'No fue posible registrar la mascota' <br>
+           }
+           <br>
+           Error: <br>
+           Status:500 <br>
+           JSON:{ <br>
+            message: 'Error en el servidor: ' + error.message <br>
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+
+
+
+      <hr>
+      <h3> Requerimiento listar mascotas </h3>
+  
+      <table>
+          <tr><td>Numero</td><td>4</td></tr>
+          <tr><td>Nombre del servicio</td><td>listar mascotas</td></tr>
+          <tr><td>Uri</td><td>http://localhost:3000/mascotas/listar</td></tr>
+          <tr><td>Descripcion</td><td>Permite al administrador listar las mascotas</td></tr>
+          <tr><td>Verbo HTTP</td><td>GET</td></tr>
+          <tr><td>Header</td><td>token</td></tr>
+          <tr><td>Usuarios</td><td>Administrador</td></tr>
+          <tr><td>Peticion JSON</td><td>
+              NULL
+          </td></tr>
+          <tr><td>Respuesta JSON</td><td>
+              Correcto: <br>
+              Status:200 <br>
+              { <br>
+                  "mascotas": [ <br>
+                      { <br>
+                          "codigo": 10, <br>
+                          "raza": "Bulldog",<br>
+                          "categoria": "Perro",<br>
+                          "foto": "acef3e01c913a80a0faf5e6fc59c66b8.jpg", <br>
+                          "genero": "Macho" <br>
+                      }, <br>
+                      { <br>
+                          "codigo": 11, <br>
+                          "raza": "Bulldog", <br>
+                          "categoria": "Perro", <br>
+                          "foto": "e71dff1e626eb140b4bfae016c651878.jpg", <br>
+                          "genero": "Macho" <br>
+                      }, <br>
+                      { <br>
+                          "codigo": 12, <br>
+                          "raza": "Bulldog", <br>
+                          "categoria": "Perro", <br>
+                          "foto": "3e3e9c63ecbc203ed5fe619466bf9e75.jpg", <br>
+                          "genero": "Macho" <br>
+                      } <br>
+                  ] <br>
+              }
+            <br>
+            Incorrecto: <br>
+            Status:404 <br>
+             JSON:{ <br>
+              message: 'No hay mascotas registradas' <br>
+             }
+             <br>
+             Error: <br>
+             Status:500 <br>
+             JSON:{ <br>
+              message: 'Error en el sistema: ' + error <br>
+             }
+          </td></tr>
+          <tr>
+              <td> Programador </td>
+              <td> Sergio Andrés Vargas </td>
+          </tr>
+      </table>
+  
+
+
+
+
+      <hr>
+    <h3> Requerimiento buscar mascotas </h3>
+
+    <table>
+        <tr><td>Numero</td><td>5</td></tr>
+        <tr><td>Nombre del servicio</td><td>buscar mascotas</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/mascotas/buscar/10</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador buscar a alguna mascota</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td>token</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            NULL
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            { <br>
+                "mascotas": [ <br>
+                    { <br>
+                        "codigo": 10, <br>
+                        "raza": "Bulldog", <br>
+                        "categoria": "Perro", <br>
+                        "foto": "acef3e01c913a80a0faf5e6fc59c66b8.jpg", <br>
+                        "genero": "Macho" <br>
+                    } <br>
+                ] <br>
+            }
+          <br>
+          Incorrecto: <br>
+          Status:404 <br>
+           JSON:{ <br>
+            message: 'No hay ninguna mascota con ese codigo' <br>
+           }
+           <br>
+           Error: <br>
+           Status:500 <br>
+           JSON:{ <br>
+            message: 'Error en el sistema: ' + error <br>
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+
+
+
+
+    <hr>
+    <h3> Requerimiento eliminar mascotas </h3>
+
+    <table>
+        <tr><td>Numero</td><td>6</td></tr>
+        <tr><td>Nombre del servicio</td><td>eliminar mascotas</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/mascotas/eliminar/10</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador eliminar las mascotas</td></tr>
+        <tr><td>Verbo HTTP</td><td>DELETE</td></tr>
+        <tr><td>Header</td><td>token</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            NULL
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            { <br>
+                "message": "Mascota eliminada con éxito" <br>
+            }
+          <br>
+          Incorrecto: <br>
+          Status:404 <br>
+           JSON:{ <br>
+            message: 'No fue posible eliminar la mascota' <br>
+           }
+           <br>
+           Error: <br>
+           Status:500 <br>
+           JSON:{ <br>
+            message: 'Error en el sistema: ' + error <br>
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+
+
+
+
+
+    <hr>
+    <h3> Requerimiento actualizar mascotas </h3>
+
+    <table>
+        <tr><td>Numero</td><td>7</td></tr>
+        <tr><td>Nombre del servicio</td><td>actualizar mascotas</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/mascotas/actualizar/11</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador actualizar a alguna mascota</td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td>token</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            Peticion Form-Data <br>
+            "foto":(foto)
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            { <br>
+                message: 'Mascota actualizada con éxito'<br>
+            }
+          <br>
+          Incorrecto: <br>
+          Status:404 <br>
+           JSON:{ <br>
+            message: 'No fue posible actualizar la mascota' <br>
+           }
+           <br>
+           Error: <br>
+           Status:500 <br>
+           JSON:{ <br>
+            message: 'Error en el sistema: ' + error <br>
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+
+

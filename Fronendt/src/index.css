@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::placeholder {
+    font-weight: 500; 
+    color: #646cff;
+  }
