@@ -130,7 +130,7 @@ const BuscarMascota = () => {
               </div>
             </div>
           ) : (
-            <p className="text-white">Cargando datos de la mascota...</p>
+            <p className="text-white">Cargando datos de la mascota</p>
           )}
         </div>
       </div>
