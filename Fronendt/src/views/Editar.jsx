@@ -58,24 +58,6 @@ const Editar = () => {
         fetchData();
     }, [codigo]);
 
-    useEffect(() => {
-      // Actualizamos los valores de los selects según los datos de la mascota
-      if (values.raza_codigo && values.categoria_codigo && values.genero_codigo) {
-          const selectedRaza = razas.find(raza => raza.codigo === values.raza_codigo);
-          const selectedCategoria = categorias.find(categoria => categoria.codigo === values.categoria_codigo);
-          const selectedGenero = generos.find(genero => genero.codigo === values.genero_codigo);
-  
-          if (selectedRaza && selectedCategoria && selectedGenero) {
-              setValues(prevValues => ({
-                  ...prevValues,
-                  raza_codigo: selectedRaza.codigo,
-                  categoria_codigo: selectedCategoria.codigo,
-                  genero_codigo: selectedGenero.codigo
-              }));
-          }
-      }
-  }, [values, razas, categorias, generos]);
-
     const handleChange = (event) => {
         setValues({
             ...values,
@@ -94,7 +76,6 @@ const Editar = () => {
             formData.append('foto', selectedImage);
         }
 
-        // Loguea los datos que se van a enviar
         for (let [key, value] of formData.entries()) {
             console.log(key, value);
         }
@@ -192,81 +173,81 @@ const Editar = () => {
                     />
                 </div>
 
-<form onSubmit={actualizar}>
-    <div className="rounded-lg p-6">
-        <input
-            name='nombre'
-            type="text"
-            placeholder="Nombre"
-            onChange={handleChange}
-            value={values.nombre}
-            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
-            required
-        />
+                <form onSubmit={actualizar}>
+                    <div className="rounded-lg p-6">
+                        <input
+                            name='nombre'
+                            type="text"
+                            placeholder="Nombre"
+                            onChange={handleChange}
+                            value={values.nombre}
+                            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+                            required
+                        />
 
-        <select
-            name='raza_codigo'
-            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
-            onChange={handleChange}
-            value={values.selectedRaza}
-        >
-            <option value="" disabled>Seleccione Raza...</option>
-            {razas.map((raza) => (
-                <option key={raza.codigo} value={raza.codigo}>{raza.nombre}</option>
-            ))}
-        </select>
+                        <select
+                            name='raza_codigo'
+                            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+                            onChange={handleChange}
+                            value={values.raza_codigo}
+                        >
+                            <option value="" disabled>Seleccione Raza...</option>
+                            {razas.map((raza) => (
+                                <option key={raza.codigo} value={raza.codigo}>{raza.nombre}</option>
+                            ))}
+                        </select>
 
-        <select
-            name='categoria_codigo'
-            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
-            onChange={handleChange}
-            value={values.selectedCategoria}
-        >
-            <option value="" disabled>Seleccione Categoría...</option>
-            {categorias.map((categoria) => (
-                <option key={categoria.codigo} value={categoria.codigo}>{categoria.nombre}</option>
-            ))}
-        </select>
+                        <select
+                            name='categoria_codigo'
+                            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+                            onChange={handleChange}
+                            value={values.categoria_codigo}
+                        >
+                            <option value="" disabled>Seleccione Categoría...</option>
+                            {categorias.map((categoria) => (
+                                <option key={categoria.codigo} value={categoria.codigo}>{categoria.nombre}</option>
+                            ))}
+                        </select>
 
-        <div className="flex items-center mb-4">
-            <input
-                id="foto"
-                name="foto"
-                type="file"
-                className="hidden"
-                onChange={ImagenMostrar}
-            />
-            <label
-                htmlFor="foto"
-                className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300 cursor-pointer"
-            >
-                Subir Foto
-            </label>
+                        <div className="flex items-center mb-4">
+                            <input
+                                id="foto"
+                                name="foto"
+                                type="file"
+                                className="hidden"
+                                onChange={ImagenMostrar}
+                            />
+                            <label
+                                htmlFor="foto"
+                                className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300 cursor-pointer"
+                            >
+                                Subir Foto
+                            </label>
+                        </div>
+
+                        <select
+                            name='genero_codigo'
+                            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+                            onChange={handleChange}
+                            value={values.genero_codigo}
+                        >
+                            <option value="" disabled>Seleccione Género...</option>
+                            {generos.map((genero) => (
+                                <option key={genero.codigo} value={genero.codigo}>{genero.nombre}</option>
+                            ))}
+                        </select>
+
+                        <button
+                            type="submit"
+                            className="bg-green-500 text-white p-3 w-full rounded-full"
+                        >
+                            Actualizar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <select
-            name='genero_codigo'
-            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
-            onChange={handleChange}
-            value={values.selectedGenero}
-        >
-            <option value="" disabled>Seleccione Género...</option>
-            {generos.map((genero) => (
-                <option key={genero.codigo} value={genero.codigo}>{genero.nombre}</option>
-            ))}
-        </select>
-
-        <button
-            type="submit"
-            className="bg-green-500 text-white p-3 w-full rounded-full"
-        >
-            Actualizar
-        </button>
-    </div>
-</form>
-</div>
-</div>
-);
+    );
 };
 
 export default Editar;

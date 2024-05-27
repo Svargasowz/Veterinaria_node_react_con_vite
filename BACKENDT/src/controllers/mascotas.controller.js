@@ -87,7 +87,10 @@ export const buscarMascotas = async (req, res) => {
     try {
         const { codigo } = req.params;
         const [mascotas] = await pool.query(`
-            SELECT m.codigo, m.nombre AS nombre_mascota, r.nombre AS raza, c.nombre AS categoria, m.foto, g.nombre AS genero
+            SELECT m.codigo, m.nombre AS nombre_mascota, r.codigo AS raza_codigo, r.nombre AS raza, 
+                   c.codigo AS categoria_codigo, c.nombre AS categoria, 
+                   g.codigo AS genero_codigo, g.nombre AS genero, 
+                   m.foto
             FROM mascotas m
             JOIN raza r ON m.raza_codigo = r.codigo
             JOIN categorias c ON m.categoria_codigo = c.codigo
@@ -106,7 +109,6 @@ export const buscarMascotas = async (req, res) => {
         });
     }
 };
-
 
 
 export const actualizarMascotas = async (req, res) => {
