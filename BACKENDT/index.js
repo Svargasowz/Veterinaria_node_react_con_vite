@@ -5,6 +5,7 @@ import categorias from './src/routes/categorias.routes.js'
 import genero from './src/routes/genero.routes.js'
 import login from './src/routes/Login.routes.js'
 import mascotas from './src/routes/mascotas.routes.js'
+import municipio from './src/routes/municipio.routes.js'
 
 const app = express();
 const port =3000
@@ -15,6 +16,7 @@ app.use("/mascotas",mascotas)
 app.use("/raza",raza)
 app.use("/categorias",categorias)
 app.use("/genero",genero)
+app.use("/municipio",municipio)
 
 
 

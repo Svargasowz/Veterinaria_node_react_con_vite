@@ -6,6 +6,7 @@ import Registrar from "../src/views/Registrar.jsx";
 import SeguridadRuta from "./security/ProtectorRutas.jsx";
 import BuscarMascota from "./views/BuscarMascota.jsx";
 import Editar from "./views/Editar.jsx"
+import busqueda from "./views/busqueda.jsx";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route element={<SeguridadRuta />}>
           <Route path="/registrar" element={<Registrar />} />
           <Route path="/inicio" element={<DentroInicio />} />
+          <Route path="/busqueda" element={<busqueda />} /> 
           <Route path="/buscar/:codigo" element={<BuscarMascota />} />
           <Route path="/editar/:codigo" element={<Editar/>} />
         </Route>

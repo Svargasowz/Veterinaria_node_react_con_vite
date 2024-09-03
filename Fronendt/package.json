@@ -16,6 +16,7 @@
     "react": "^18.2.0",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.1",
     "react-select": "^5.8.0",
     "router-dom": "^2.2.11",

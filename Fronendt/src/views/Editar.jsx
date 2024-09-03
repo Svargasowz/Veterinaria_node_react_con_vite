@@ -8,33 +8,38 @@ import Cerrar from '../img/Cerrar.png';
 
 const Editar = () => {
     const { codigo } = useParams();
+    
     const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState(null);
     const [razas, setRazas] = useState([]);
     const [generos, setGeneros] = useState([]);
     const [categorias, setCategorias] = useState([]);
+    const [municipios, setMunicipios] = useState([]);
     const [values, setValues] = useState({
         nombre: '',
         raza_codigo: '',
         categoria_codigo: '',
         foto: '',
-        genero_codigo: ''
+        genero_codigo: '',
+        municipio_codigo:''
     });
 
-    useEffect(() => {
-        const fetchData = async () => {
+    //!OBETENER DATOS DE MASCOTA
+        const ObtenerDatosMascota = async () => {
             const token = localStorage.getItem('token');
             try {
-                const [razasResponse, generosResponse, categoriasResponse, mascotaResponse] = await Promise.all([
+                const [razasResponse, generosResponse, categoriasResponse,municipioResponse, mascotaResponse] = await Promise.all([
                     axios.get('http://localhost:3000/raza/listar', { headers: { 'token': token } }),
                     axios.get('http://localhost:3000/genero/listar', { headers: { 'token': token } }),
                     axios.get('http://localhost:3000/categorias/listar', { headers: { 'token': token } }),
+                    axios.get('http://localhost:3000/municipio/listar', { headers: { 'token': token } }),
                     axios.get(`http://localhost:3000/mascotas/buscar/${codigo}`, { headers: { 'token': token } })
                 ]);
 
                 setRazas(razasResponse.data);
                 setGeneros(generosResponse.data);
                 setCategorias(categoriasResponse.data);
+                setMunicipios(municipioResponse.data);
 
                 if (mascotaResponse.data.mascotas && mascotaResponse.data.mascotas.length > 0) {
                     const mascota = mascotaResponse.data.mascotas[0];
@@ -43,7 +48,8 @@ const Editar = () => {
                         raza_codigo: mascota.raza_codigo,
                         categoria_codigo: mascota.categoria_codigo,
                         foto: mascota.foto,
-                        genero_codigo: mascota.genero_codigo
+                        genero_codigo: mascota.genero_codigo,
+                        municipio_codigo: mascota.municipio_codigo
                     });
                 }
             } catch (error) {
@@ -54,8 +60,8 @@ const Editar = () => {
                 });
             }
         };
-
-        fetchData();
+        useEffect(() => {
+        ObtenerDatosMascota();
     }, [codigo]);
 
     const handleChange = (event) => {
@@ -65,13 +71,19 @@ const Editar = () => {
         });
     };
 
+    //!ACTUALIZAR_MASCOTA
+
     const actualizar = async (event) => {
+
         event.preventDefault();
+
         const formData = new FormData();
         formData.append('nombre', values.nombre);
         formData.append('raza_codigo', values.raza_codigo);
         formData.append('categoria_codigo', values.categoria_codigo);
         formData.append('genero_codigo', values.genero_codigo);
+        formData.append('municipio_codigo', values.municipio_codigo);
+
         if (selectedImage) {
             formData.append('foto', selectedImage);
         }
@@ -85,7 +97,6 @@ const Editar = () => {
         try {
             const response = await axios.put(`http://localhost:3000/mascotas/actualizar/${codigo}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'token': token
                 }
             });
@@ -168,7 +179,7 @@ const Editar = () => {
                 <div className='flex justify-center mb-4'>
                     <img
                         src={selectedImage ? URL.createObjectURL(selectedImage) : `http://localhost:3000/img/${values.foto}`}
-                        className="max-w-36 max-h-36 min-w-40 min-h-40 rounded-full p-5 cursor-pointer"
+                        className="max-w-36 max-h-36 min-w-40 min-h-40 rounded-full p-5 cursor-pointer mt-10"
                         alt="Foto de mascota"
                     />
                 </div>
@@ -234,6 +245,18 @@ const Editar = () => {
                             <option value="" disabled>Seleccione Género...</option>
                             {generos.map((genero) => (
                                 <option key={genero.codigo} value={genero.codigo}>{genero.nombre}</option>
+                            ))}
+                        </select>
+
+                        <select
+                            name='municipio_codigo'
+                            className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+                            onChange={handleChange}
+                            value={values.municipio_codigo}
+                        >
+                            <option value="" disabled>Seleccione un municipio...</option>
+                            {municipios.map((municipio) => (
+                                <option key={municipio.codigo} value={municipio.codigo}>{municipio.nombre}</option>
                             ))}
                         </select>
 

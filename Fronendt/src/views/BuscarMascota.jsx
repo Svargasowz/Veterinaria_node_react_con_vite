@@ -8,13 +8,15 @@ import Fondo from '../img/baseAzul.png';
 
 
 const BuscarMascota = () => {
-  const [mascota, setMascota] = useState(null);
   const navigate = useNavigate();
+
+  const [mascota, setMascota] = useState(null);
   const { codigo } = useParams();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+ 
+  //!BUSCAR_MASCOTAS
     const buscarMascota = async () => {
+      const token = localStorage.getItem('token');
       try {
         const response = await axios.get(`http://localhost:3000/mascotas/buscar/${codigo}`, {
           headers: {
@@ -22,7 +24,7 @@ const BuscarMascota = () => {
           }
         });
 
-        if (response.data && response.data.mascotas && response.data.mascotas.length > 0) {
+        if (response.status === 200) {
           setMascota(response.data.mascotas[0]);
         } else {
           Swal.fire({
@@ -40,13 +42,17 @@ const BuscarMascota = () => {
         });
       }
     };
-    buscarMascota();
-  }, [codigo]);
+
+    useEffect(()=>{
+      buscarMascota();
+    }, [codigo]);
+    //!FIN_BUSCAR_MASCOTAS
 
   const volver = () => {
     navigate('/inicio');
   };
 
+  //!CERRAR_SECION
   const cerrarSesion = () => {
     Swal.fire({
       title: "¿Seguro que quieres cerrar sesión?",
@@ -95,7 +101,10 @@ const BuscarMascota = () => {
         <div className='flex flex-col items-center -mt-30'>
           {mascota ? (
             <div className='rounded-lg p-4 flex flex-col items-center'>
-              <div className="w-32 h-32 rounded-full overflow-hidden mt-28">
+              <div
+              style={{ marginBottom: '50px' }}
+
+              className="w-32 h-32 rounded-full overflow-hidden mt-28">
                 {mascota.foto && (
                   <img
                     src={`http://localhost:3000/img/${mascota.foto}`}
@@ -107,25 +116,40 @@ const BuscarMascota = () => {
               <div className="bg-gray-400 w-80 p-2 mb-2 rounded mt-3">
                 <div className="flex justify-between bg-gray-400 p-2 rounded">
                   <span className="font-bold">Nombre:</span> 
-                  <span className="bg-gray-300 p-2 rounded">{mascota.nombre_mascota}</span>
+                  <span
+                   style={{ maxWidth: '47%', minWidth: '47%',textAlign: 'center' }}
+                  className="bg-gray-300 p-4 rounded absolute ml-24 -mt-4 ">{mascota.nombre_mascota}</span>
                 </div>
               </div>
               <div className="bg-gray-400 w-80 p-2 mb-2 rounded mt-3">
                 <div className="flex justify-between bg-gray-400 p-2 rounded">
                   <span className="font-bold">Raza:</span> 
-                  <span className="bg-gray-300 p-2 rounded">{mascota.raza}</span>
+                  <span
+                   style={{ maxWidth: '47%', minWidth: '47%',textAlign: 'center' }}
+                  className="bg-gray-300 p-4 rounded absolute ml-24 -mt-4 ">{mascota.raza}</span>
                 </div>
               </div>
               <div className="bg-gray-400 w-80 p-2 mb-2 rounded mt-3">
                 <div className="flex justify-between bg-gray-400 p-2 rounded">
                   <span className="font-bold">Categoría:</span> 
-                  <span className="bg-gray-300 p-2 rounded">{mascota.categoria}</span>
+                  <span
+                   style={{ maxWidth: '47%', minWidth: '47%',textAlign: 'center' }}
+                  className="bg-gray-300 p-4 rounded absolute ml-24 -mt-4 ">{mascota.categoria}</span>
                 </div>
               </div>
               <div className="bg-gray-400 w-80 p-2 mb-2 rounded mt-3">
                 <div className="flex justify-between bg-gray-400 p-2 rounded">
                   <span className="font-bold">Género:</span> 
-                  <span className="bg-gray-300 p-2 rounded">{mascota.genero}</span>
+                  <span
+                   style={{ maxWidth: '47%', minWidth: '47%',textAlign: 'center' }}
+                  className="bg-gray-300 p-4 rounded absolute ml-24 -mt-4">{mascota.genero}</span>
+                </div>
+
+                <div className="flex justify-between bg-gray-400 p-2 rounded mt-6">
+                  <span className="font-bold">Municipio:</span> 
+                  <span
+                   style={{ maxWidth: '47%', minWidth: '47%',textAlign: 'center' }}
+                  className="bg-gray-300 p-4 rounded absolute ml-24 -mt-4">{mascota.municipio}</span>
                 </div>
               </div>
             </div>

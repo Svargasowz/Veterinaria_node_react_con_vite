@@ -9,28 +9,55 @@ import Fondo from '../img/baseAzul.png';
 import LupaBuscar from '../img/LupaBuscar.png';
 import Editar from '../img/Editar.png';
 
-
 const DentroInicio = () => {
-    const navigate = useNavigate();
-    const [mascotas, setMascotas] = useState([]);
-  
- 
-  //!MOSTRAR_MASCOTAS
-    const MascotasMostrar = async () => {
+  const navigate = useNavigate();
+  const [mascotas, setMascotas] = useState([]);
 
+  //! IMPORTANTE 
+  const [conteoRazas, setConteoRazas] = useState({});
+  //! IMPORTANTE
+
+  //! IMPORTANTE
+  const [showModal, setShowModal] = useState(false);
+  //! IMPORTANTE 
+
+  useEffect(() => {
+    const MascotasMostrar = async () => {
       const token = localStorage.getItem('token');
 
       try {
         const response = await axios.get('http://localhost:3000/mascotas/listar', {
           headers: {
             'token': token
-          }});
-        //console.log('Respuesta de la API:', response.data);
+          }
+        });
 
-        if (response.status === 200) {
+        console.log('Respuesta de la API:', response.data);
+
+        if (response.data && Array.isArray(response.data.mascotas)) {
           setMascotas(response.data.mascotas);
+          console.log('Mascotas:', response.data.mascotas);
+
+
+
+
+
+          //!IMPORTANTE
+          contarRazas(response.data.mascotas);
+          //!IMPORTANTE
+
+
+
+
+
+        } else {
+          console.error('La respuesta de la API no es un array:', response.data);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al obtener los datos',
+            text: 'La respuesta de la API no es válida',
+          });
         }
-       
       } catch (error) {
         console.error('Error al obtener los datos:', error);
         Swal.fire({
@@ -40,47 +67,53 @@ const DentroInicio = () => {
         });
       }
     };
-    useEffect(()=>{
-      MascotasMostrar();
-    }, []);
-    //!FIN_MOSTRAR_MASCOTAS
+    MascotasMostrar();
+  }, []);
 
 
-    //!ELIMINAR_MASCOTAS
-  const eliminarMascota = async (codigo) => {
 
-  const token = localStorage.getItem('token');
-  try {
-    const response = await axios.delete(`http://localhost:3000/mascotas/eliminar/${codigo}`, {
-      headers: {
-        'token': token
-      }
+  //!IMPORTANTE
+  const contarRazas = (mascotas) => {
+    const conteo = {};
+    mascotas.forEach(mascota => {
+      const raza = mascota.raza;
+      conteo[raza] = (conteo[raza] || 0) + 1;
     });
-    //? esta funcion sirve para eliminar la mascota del la constante mascota y eliminando
-    //? del array la mascota que coincida con el codigo eliminado
-    setMascotas(mascotas.filter(mascota => mascota.codigo !== codigo));
+    setConteoRazas(conteo);
+  };
+  //!IMPORTANTE
 
-    if (response.status === 200) {
+
+
+
+
+  const eliminarMascota = async (codigo) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`http://localhost:3000/mascotas/eliminar/${codigo}`, {
+        headers: {
+          'token': token
+        }
+      });
+
+      setMascotas(mascotas.filter(mascota => mascota.codigo !== codigo));
+      contarRazas(mascotas.filter(mascota => mascota.codigo !== codigo));
+
       Swal.fire({
         icon: 'success',
         title: 'Mascota eliminada',
         text: 'La mascota ha sido eliminada exitosamente',
       });
-      MascotasMostrar();
+    } catch (error) {
+      console.error('Error al eliminar la mascota:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al eliminar la mascota',
+        text: error.response?.data?.message || 'Error desconocido',
+      });
     }
+  };
 
-  } catch (error) {
-    console.error('Error al eliminar la mascota:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error al eliminar la mascota',
-      text: error.response?.data?.message || 'Error desconocido',
-    });
-  }
-};
-
-
-  //!CERRAR_SESION
   const cerrarSesion = () => {
     Swal.fire({
       title: "Seguro que quieres cerrar sesión",
@@ -100,19 +133,29 @@ const DentroInicio = () => {
     });
   };
 
-
   const navegarRegistrar = () => {
     navigate('/registrar');
   };
-  const navegarBusqueda = () =>{
-    navigate('/busqueda');
-  }
-  const navegarBuscar = (codigo) => {
-    navigate(`/buscar/${codigo}`);
+  const navegarBuscar = (codigoMascota) => {
+    navigate(`/buscar/${codigoMascota}`);
   };
-  const navegarEditar = (codigo) => {
-    navigate(`/editar/${codigo}`);
+  const navegarEditar = (codigoMascota) => {
+    navigate(`/editar/${codigoMascota}`);
   };
+
+
+
+
+
+  //!IMPORTANTE
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+//!IMPORTANTE
+
+
+
 
   return (
     <div
@@ -158,21 +201,21 @@ const DentroInicio = () => {
                   )}
                 </div>
                 <div className="flex flex-col justify-center ml-4">
-                  <h2 className="font-bold mb-2 -ml-3">Nombre:{mascota.nombre_mascota}</h2>
+                  <h2 className="font-bold mb-2 -ml-3">Nombre: {mascota.nombre_mascota}</h2>
                   <p className="-ml-4">Raza: {mascota.raza}</p>
                 </div>
                 <img
-                 src={LupaBuscar}
-                 className="cursor-pointer w-6 h-6 ml-2"
-                 alt="Eliminar"
-                 onClick={() => navegarBuscar(mascota.codigo)}
-               />
+                  src={LupaBuscar}
+                  className="cursor-pointer w-6 h-6 ml-2"
+                  alt="Buscar"
+                  onClick={() => navegarBuscar(mascota.codigo)}
+                />
                 <img
-                 src={Editar}
-                 className="cursor-pointer w-6 h-6 ml-2"
-                 alt="Eliminar"
-                 onClick={() => navegarEditar(mascota.codigo)}
-               />
+                  src={Editar}
+                  className="cursor-pointer w-6 h-6 ml-2"
+                  alt="Editar"
+                  onClick={() => navegarEditar(mascota.codigo)}
+                />
                 <img
                   src={Eliminar}
                   className="cursor-pointer w-6 h-6 ml-2"
@@ -183,10 +226,51 @@ const DentroInicio = () => {
             ))
           )}
         </div>
+        
+
+
+
+
+
+
+
+        //!IMPORTANTE
+        <button 
+          className="mt-4 p-2 bg-blue-500 text-white rounded"
+          onClick={toggleModal}
+        >
+          Mostrar Conteo de Razas
+        </button>
+
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg">
+              <h2 className="text-xl mb-4">Conteo de Razas:</h2>
+              <ul>
+                {Object.entries(conteoRazas).map(([raza, cantidad]) => (
+                  <li key={raza}>{raza}: {cantidad}</li>
+                ))}
+              </ul>
+              <button 
+                className="mt-4 p-2 bg-red-500 text-white rounded"
+                onClick={toggleModal}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+        //!IMPORTANTE
+
+
+
+
+
+
+
       </div>
     </div>
   );
 };
 
 export default DentroInicio;
-

@@ -61,7 +61,7 @@ const IniciarSesion = () => {
   return (
     <div
       className='flex flex-col items-center justify-center min-h-screen'
-      style={{ backgroundImage: `url(${Fondo})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}
+      style={{ backgroundImage: `url(${Fondo})`, backgroundPosition: 'center', backgroundRepeat: 'nwo-repeat' }}
     >
       <form onSubmit={IniciarSesion} method='post' className='w-full max-w-sm mt-96 pt-24'>
         <div className='mb-4'>

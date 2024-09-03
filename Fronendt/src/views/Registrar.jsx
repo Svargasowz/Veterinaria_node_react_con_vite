@@ -11,16 +11,19 @@ const Registrar = () => {
   const [razas, setRazas] = useState([]);
   const [generos, setGeneros] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [municipios, setMunicipios] = useState([]);
+
   const [values, setValues] = useState({
     nombre: '',
     raza_codigo: '',
     categoria_codigo: '',
     foto: '',
-    genero_codigo: ''
+    genero_codigo: '',
+    municipio_codigo: ''
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
+ 
+    const Busquedas = async () => {
       const token = localStorage.getItem('token');
       try {
         const razasResponse = await axios.get('http://localhost:3000/raza/listar', {
@@ -37,6 +40,13 @@ const Registrar = () => {
         });
         setGeneros(generosResponse.data);
 
+        const municipiosResponse = await axios.get('http://localhost:3000/municipio/listar', {
+          headers: {
+            'token': token
+          }
+        });
+        setMunicipios(municipiosResponse.data);
+
         const categoriasResponse = await axios.get('http://localhost:3000/categorias/listar', {
           headers: {
             'token': token
@@ -52,8 +62,8 @@ const Registrar = () => {
         });
       }
     };
-
-    fetchData();
+    useEffect(() => {
+    Busquedas();
   }, []);
 
   const handleSubmit = (event) => {
@@ -63,6 +73,10 @@ const Registrar = () => {
     });
   };
 
+  
+  //!REGISTRAR_MASCOTA
+
+
   const registrar = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -70,6 +84,7 @@ const Registrar = () => {
     formData.append('raza_codigo', values.raza_codigo);
     formData.append('categoria_codigo', values.categoria_codigo);
     formData.append('genero_codigo', values.genero_codigo);
+    formData.append('municipio_codigo',values.municipio_codigo);
     if (selectedImage) {
       formData.append('foto', selectedImage);
     }
@@ -91,6 +106,19 @@ const Registrar = () => {
         showConfirmButton: false,
         timer: 1200
       });
+
+      //!RESETEAR LOS DATOS
+      setValues({
+        nombre: '',
+        raza_codigo: '',
+        categoria_codigo: '',
+        foto: '',
+        genero_codigo: '',
+        municipio_codigo: ''
+      });
+
+
+      setSelectedImage(null);
     } catch (error) {
       console.error('Error al registrar la mascota:', error);
       Swal.fire({
@@ -184,7 +212,7 @@ const Registrar = () => {
               onChange={handleSubmit}
               value={values.raza_codigo}
             >
-              <option value="" disabled>Seleccione Raza...</option>
+              <option value="" disabled>Seleccione una Raza...</option>
               {razas.map((raza) => (
                 <option key={raza.codigo} value={raza.codigo}>{raza.nombre}</option>
               ))}
@@ -196,7 +224,7 @@ const Registrar = () => {
               onChange={handleSubmit}
               value={values.categoria_codigo}
             >
-              <option value="" disabled>Seleccione Categoría...</option>
+              <option value="" disabled>Seleccione una Categoría...</option>
               {categorias.map((categoria) => (
                 <option key={categoria.codigo} value={categoria.codigo}>{categoria.nombre}</option>
               ))}
@@ -224,9 +252,21 @@ const Registrar = () => {
               onChange={handleSubmit}
               value={values.genero_codigo}
             >
-              <option value="" disabled>Seleccione Género...</option>
+              <option value="" disabled>Seleccione un Género...</option>
               {generos.map((genero) => (
                 <option key={genero.codigo} value={genero.codigo}>{genero.nombre}</option>
+              ))}
+            </select>
+
+            <select
+              name='municipio_codigo'
+              className="mb-4 p-3 w-full rounded-full bg-gray-300 text-blue-900 placeholder-gray-300"
+              onChange={handleSubmit}
+              value={values.municipio_codigo}
+            >
+              <option value="" disabled>Seleccione un municipio...</option>
+              {municipios.map((municipio) => (
+                <option key={municipio.codigo} value={municipio.codigo}>{municipio.nombre}</option>
               ))}
             </select>
 

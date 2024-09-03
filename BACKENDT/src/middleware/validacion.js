@@ -7,5 +7,4 @@ export const validationResultExpress=(req,res,next)=>{
             errors:errors.array()})
     }
     next()
-    
 }
